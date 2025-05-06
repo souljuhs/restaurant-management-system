@@ -1,103 +1,152 @@
 package com.fantastic.restaurant;
 
-/* |----------------------------------------------|
- * |				   Menu					  	  |
- * |----------------------------------------------|
- * | - itemName: String							  |
- * | - itemCost: double							  |
- * | - itemDescription: String					  |
- * | - itemCategory: String						  |
- * | - itemAvailability: int					  |
- * |----------------------------------------------|
- * | + setName(name: String): void				  |
- * | + setCost(cost: String): void				  |
- * | + setDescription(description: String): void  |
- * | + setCategory(category: String): void		  |
- * | + setAvailability(availability: int): void   |
- * | + getName(): String						  |
- * | + getCost(): double						  |
- * | + getDescription(): String					  |
- * | + getCategory(): String					  |
- * | + getAvailability(): int					  |
- * |----------------------------------------------|
-*/
+/**
+ * Represents a menu item in a restaurant.
+ * This class encapsulates the details of an item including its name, cost,
+ * description, category, and availability.
+ * 
+ * The class is designed with maintainability, dependability, security, efficiency,
+ * and acceptability in mind.
+ */
+public class Menu {
 
-public class Menu 
-{
-	private String itemName;//Holds the item's name
-	private double itemCost;//Holds the item's cost
-	private String itemDescription;
-	private String itemCategory;
-	private int itemAvailability;
-	
-	//Parameterized constructor
-	public Menu(String name, String description, double cost, String category, int available)	
-	{
-		this.itemName = name;
-		this.itemDescription = description;
-		this.itemCost = cost;
-		this.itemCategory = category;
-		this.itemAvailability = available;
-	}
-	
-	//Method to set the item's name
-	public void setName(String name)
-	{
-		this.itemName = name;
-	}
-	
-	//Method to set the item's cost
-	public void setCost(double cost)
-	{	
-		this.itemCost = cost;
-	}	
-	
-	//Method to set the item's description
-	public void setDescription(String description)
-	{
-		this.itemDescription = description;
-	}
-	
-	//Method to set the item's category
-	public void setCategory(String category)
-	{
-		this.itemCategory = category;
-	}
-	
-	//Method to set the item's availablity
-	public void setAvailability(int available)
-	{
-		this.itemAvailability = available;
-	}
-	
-	//Method to get the item's name
-	public String getName()
-	{
-		return itemName;
-	}
-	
-	//Method to get the item's cost
-	public double getCost()
-	{
-		return itemCost;
-	}
-	
-	//Method to get the item's description
-	public String getDescription()
-	{
-		return itemDescription;
-	}
-	
-	//Method to get the item's category
-	public String getCategory()
-	{
-		return itemCategory;
-	}
-	
-	//Method to show if item is available
-	public int getAvailability()
-	{
-		return itemAvailability;
-	}
-	
+    // Item attributes
+    private String itemName;
+    private double itemCost;
+    private String itemDescription;
+    private String itemCategory;
+    private int itemAvailability;
+
+    /**
+     * Constructs a new Menu item with the specified details.
+     * 
+     * @param name the name of the menu item
+     * @param description the description of the menu item
+     * @param cost the cost of the menu item
+     * @param category the category of the menu item
+     * @param available the availability of the menu item
+     * @throws IllegalArgumentException if any input is invalid (e.g., negative cost or availability)
+     */
+    public Menu(String name, String description, double cost, String category, int available) {
+        setName(name);
+        setDescription(description);
+        setCost(cost);
+        setCategory(category);
+        setAvailability(available);
+    }
+
+    // Setters with validation
+
+    /**
+     * Sets the name of the menu item.
+     * 
+     * @param name the name of the menu item
+     * @throws IllegalArgumentException if the name is null or empty
+     */
+    public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Item name cannot be null or empty.");
+        }
+        this.itemName = name;
+    }
+
+    /**
+     * Sets the cost of the menu item.
+     * 
+     * @param cost the cost of the menu item
+     * @throws IllegalArgumentException if the cost is negative
+     */
+    public void setCost(double cost) {
+        if (cost < 0) {
+            throw new IllegalArgumentException("Item cost cannot be negative.");
+        }
+        this.itemCost = cost;
+    }
+
+    /**
+     * Sets the description of the menu item.
+     * 
+     * @param description the description of the menu item
+     * @throws IllegalArgumentException if the description is null or empty
+     */
+    public void setDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
+            throw new IllegalArgumentException("Item description cannot be null or empty.");
+        }
+        this.itemDescription = description;
+    }
+
+    /**
+     * Sets the category of the menu item.
+     * 
+     * @param category the category of the menu item
+     * @throws IllegalArgumentException if the category is null or empty
+     */
+    public void setCategory(String category) {
+        if (category == null || category.trim().isEmpty()) {
+            throw new IllegalArgumentException("Item category cannot be null or empty.");
+        }
+        this.itemCategory = category;
+    }
+
+    /**
+     * Sets the availability of the menu item.
+     * 
+     * @param available the availability of the menu item
+     * @throws IllegalArgumentException if the availability is negative
+     */
+    public void setAvailability(int available) {
+        if (available < 0) {
+            throw new IllegalArgumentException("Item availability cannot be negative.");
+        }
+        this.itemAvailability = available;
+    }
+
+    // Getters
+
+    /**
+     * Gets the name of the menu item.
+     * 
+     * @return the name of the menu item
+     */
+    public String getName() {
+        return itemName;
+    }
+
+    /**
+     * Gets the cost of the menu item.
+     * 
+     * @return the cost of the menu item
+     */
+    public double getCost() {
+        return itemCost;
+    }
+
+    /**
+     * Gets the description of the menu item.
+     * 
+     * @return the description of the menu item
+     */
+    public String getDescription() {
+        return itemDescription;
+    }
+
+    /**
+     * Gets the category of the menu item.
+     * 
+     * @return the category of the menu item
+     */
+    public String getCategory() {
+        return itemCategory;
+    }
+
+    /**
+     * Gets the availability of the menu item.
+     * 
+     * @return the availability of the menu item
+     */
+    public int getAvailability() {
+        return itemAvailability;
+    }
 }
+
