@@ -1,0 +1,38 @@
+UserDaoImplement Changes
+Safe Resource Management: Used try-with-resources to ensure proper management of resources like database connections, statements, and result sets. This prevents resource leaks and ensures that resources are automatically closed after use.
+Avoid Password Hashes in Console: Ensured that password hashes or any sensitive information are not printed to the console or logs. This is a security measure to protect user credentials.
+Cleaner Logic with displayUsers(): Consolidated the logic for displaying users into a helper method called displayUsers(boolean staffOnly). This avoids code duplication and allows for easy reuse of the logic to show all users or only staff members based on the flag.
+Rethrow Exceptions with Context: Exceptions are no longer swallowed; instead, they are rethrown with added context. This helps provide additional details about the error while preserving the stack trace, making it easier to debug.
+Removed Console Output of Passwords: Removed any instances of output that included passwords or sensitive user information, ensuring data privacy and security.
+Replaced System.out.println() with Logger: Replaced all System.out.println() calls used for sensitive data or logging purposes with Logger. This allows for better control over log levels and destinations, improving overall logging practices.
+Input Validation Before DB Operations: Added input validation to ensure that user data is valid before performing any database operations. This prevents invalid or incomplete data from being written to the database.
+Avoided Returning Unnecessary Internal Data: Refined return types, such as returning ArrayList<Integer> instead of ArrayList<User>. This reduces unnecessary data exposure and improves performance by returning only what's needed.
+Rethrew Exceptions with Context: Ensured that exceptions are not silently ignored by rethrowing them with context. This maintains traceability of errors and ensures that meaningful error messages are passed along with the exception.
+Closed All Connections with Try-with-Resources: Ensured that all database connections, statements, and result sets are properly closed using try-with-resources. This guarantees proper cleanup and avoids resource leaks.
+Replaced SELECT * with Explicit Column Selection: Replaced SELECT * queries with explicit column selection to fetch only the required data. This improves performance by reducing the amount of data fetched from the database.
+Consolidated SQL Logic for Role-Based Filtering: Consolidated the role filtering logic into a single SQL query using a WHERE clause. This eliminates the need for conditional logic in Java and simplifies the SQL query.
+Buffered Output with StringBuilder: Used StringBuilder to buffer output before printing, reducing the number of I/O operations. This optimizes performance by minimizing expensive console output operations.
+Pre-Sized ArrayList for Expected Usage: Pre-sized ArrayList for expected usage, such as for the staff list, to avoid unnecessary internal resizing. This improves efficiency and reduces the overhead of resizing the list during population.
+
+
+Removed Unnecessary Memory Usage: Removed unnecessary repeated strings or conditions that led to redundant operations. This simplifies the logic and reduces memory usage, especially when handling large data sets.
+Added Comments: Added meaningful comments throughout the code to explain key sections and improve the readability and maintainability of the code.
+Refined Comments:Updated method comments to reflect a more maintainable and understandable approach, emphasizing future extensibility for pagination or filtering.
+User Changes
+Role Handling: The role field is now an enum, ensuring type safety. The setRole method directly accepts a Role enum instead of an integer, removing unnecessary conversions.
+Password Security: A comment is added to indicate that passwords should be hashed before being stored (using bcrypt, PBKDF2, etc.).
+Email Validation: A basic email format check is implemented using regex to ensure a correct email format.
+Phone Validation: A simple phone number validation is implemented (more can be added based on the region or format requirements).
+Input Validation: Added checks for null or empty strings in the setter methods to ensure the data integrity.
+Error Handling:Throwing IllegalArgumentException if invalid data is provided, which is useful for debugging and identifying issues early.
+StaffTask Changes
+Enum Status improvement: Used a String field inside the Status enum to store status names, improving code readability and flexibility.
+The status enum now has a getter method (getStatusName()) for easy retrieval of the status name as a string.
+Encapsulation and data validation: Ensured all the setStatus methods are consistent. The integer-based setter is kept for backward compatibility, but throws an IllegalArgumentException if the status code is invalid.The enum itself avoids hardcoded integer values, making the code easier to maintain.
+Code clarity and readability: Improved method and variable names to ensure better understanding and clarity. Added meaningful comments explaining the purpose of each method and class.
+StaffTaskDaoImplement Changes
+try-with-resources: Used for Connection, PreparedStatement, and ResultSet to ensure proper resource management and automatic closing.
+Exception Handling: Exceptions are logged and rethrown to allow the calling code to handle errors in a structured way. This also keeps the code consistent with the interface's promise to handle exceptions.
+Updated Method Names: Changed update to updateTaskStatus to align with the interface and documentation.
+Use of List<Integer>: Replaced ArrayList<Integer> with List<Integer> for flexibility and future maintainability.
+Comments: Comments are added to explain the purpose of each method, making the code more understandable for future maintainers.
