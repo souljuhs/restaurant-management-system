@@ -15,6 +15,17 @@ import java.util.List;
  */
 public class InventoryDAOImplement implements InventoryDAO {
 
+    private final Connection connection;
+
+    /**
+     * Constructor that accepts a Connection object.
+     * 
+     * @param connection the Connection object used for database interaction
+     */
+    public InventoryDAOImplement(Connection connection) {
+        this.connection = connection;
+    }
+
     /**
      * Adds a new inventory item to the database.
      * 
@@ -25,9 +36,7 @@ public class InventoryDAOImplement implements InventoryDAO {
     public void add(Inventory item) throws DAOException {
         String sqlStatement = "INSERT INTO Inventory (name, stock_quantity, unit, threshold) VALUES (?, ?, ?, ?)";
         
-        try (Connection connect = Database.getConnection(); 
-             PreparedStatement statement = connect.prepareStatement(sqlStatement)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sqlStatement)) {
             statement.setString(1, item.getItemName());
             statement.setInt(2, item.getQuantity());
             statement.setString(3, item.getUnit());
@@ -50,8 +59,7 @@ public class InventoryDAOImplement implements InventoryDAO {
     public void view() throws DAOException {
         String sqlStatement = "SELECT * FROM Inventory";
 
-        try (Connection connect = Database.getConnection(); 
-             PreparedStatement statement = connect.prepareStatement(sqlStatement); 
+        try (PreparedStatement statement = connection.prepareStatement(sqlStatement); 
              ResultSet rs = statement.executeQuery()) {
 
             System.out.printf("%-3s %-12s %-7s %-10s %-7s %-20s\n", "ID", "Name", "Quantity", "Unit", "Threshold", "Last Updated");
@@ -86,9 +94,7 @@ public class InventoryDAOImplement implements InventoryDAO {
     public void updateQuantityByName(String itemName, int quantity) throws DAOException {
         String sqlStatement = "UPDATE Inventory SET stock_quantity = ? WHERE name = ?";
 
-        try (Connection connect = Database.getConnection(); 
-             PreparedStatement statement = connect.prepareStatement(sqlStatement)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sqlStatement)) {
             statement.setInt(1, quantity);
             statement.setString(2, itemName);
 
@@ -116,9 +122,7 @@ public class InventoryDAOImplement implements InventoryDAO {
     public Inventory getInventoryByName(String itemName) throws DAOException {
         String sqlStatement = "SELECT * FROM Inventory WHERE name = ?";
 
-        try (Connection connect = Database.getConnection(); 
-             PreparedStatement statement = connect.prepareStatement(sqlStatement)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sqlStatement)) {
             statement.setString(1, itemName);
 
             try (ResultSet rs = statement.executeQuery()) {
@@ -148,9 +152,7 @@ public class InventoryDAOImplement implements InventoryDAO {
     public void deleteInventoryByName(String itemName) throws DAOException {
         String sqlStatement = "DELETE FROM Inventory WHERE name = ?";
 
-        try (Connection connect = Database.getConnection(); 
-             PreparedStatement statement = connect.prepareStatement(sqlStatement)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sqlStatement)) {
             statement.setString(1, itemName);
 
             int rowsDeleted = statement.executeUpdate();
@@ -177,8 +179,7 @@ public class InventoryDAOImplement implements InventoryDAO {
         List<Inventory> inventoryList = new ArrayList<>();
         String sqlStatement = "SELECT * FROM Inventory";
 
-        try (Connection connect = Database.getConnection(); 
-             PreparedStatement statement = connect.prepareStatement(sqlStatement); 
+        try (PreparedStatement statement = connection.prepareStatement(sqlStatement); 
              ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
@@ -197,4 +198,5 @@ public class InventoryDAOImplement implements InventoryDAO {
         }
     }
 }
+
 

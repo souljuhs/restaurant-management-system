@@ -40,5 +40,7 @@ public interface MenuDAO extends DAO<Menu> {
      * @throws DAOException if an error occurs while deleting the menu item
      */
     boolean deleteMenuItem(int id) throws DAOException;
+    
+    
 }
 
