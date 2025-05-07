@@ -385,21 +385,27 @@ public class App extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                // Create instances of the DAOs (dependencies)
+                // Create DAO instances
                 UserDAO userDAO = new UserDAOImplement();
                 StaffTaskDAO staffTaskDAO = new StaffTaskDAOImplement();
                 RestaurantTableDAO tableDAO = new RestaurantTableDAOImplement();
                 MenuDAO menuDAO = new MenuDAOImplement();
                 InventoryDAO inventoryDAO = new InventoryDAOImplement();
-                
-                // Create the App object with all dependencies
-                new App(userDAO, staffTaskDAO, tableDAO, menuDAO, inventoryDAO).setVisible(true);
+
+                // Show Login Frame
+                new LoginFrame(userDAO, () -> {
+                    // This runs only after successful login
+                    App app = new App(userDAO, staffTaskDAO, tableDAO, menuDAO, inventoryDAO);
+                    app.setVisible(true);
+                }).setVisible(true);
+
             } catch (Exception e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error occurred during app initialization.");
             }
         });
     }
+
 
 
     private void loadRestaurantTables() throws SQLException {

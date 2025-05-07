@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Implements the MenuDAO interface to manage menu items in the system.
@@ -120,5 +121,48 @@ public class MenuDAOImplement implements MenuDAO {
         // Placeholder for future implementation
         throw new UnsupportedOperationException("Method not implemented yet.");
     }
+    
+    public void addFullMenu(String name, String posName, List<String> subgroups) throws SQLException {
+        String menuSql = "INSERT INTO menus (name, pos_name) VALUES (?, ?)";
+        String subgroupSql = "INSERT INTO menu_subgroups (menu_id, subgroup_name) VALUES (?, ?)";
+
+        try (Connection conn = Database.getConnection()) {
+            conn.setAutoCommit(false); // Start transaction
+
+            try (
+                PreparedStatement menuStmt = conn.prepareStatement(menuSql, PreparedStatement.RETURN_GENERATED_KEYS);
+                PreparedStatement subgroupStmt = conn.prepareStatement(subgroupSql)
+            ) {
+                // Insert into menus table
+                menuStmt.setString(1, name);
+                menuStmt.setString(2, posName);
+                menuStmt.executeUpdate();
+
+                // Get generated menu ID
+                ResultSet rs = menuStmt.getGeneratedKeys();
+                if (!rs.next()) {
+                    throw new SQLException("Failed to retrieve menu ID.");
+                }
+                int menuId = rs.getInt(1);
+
+                // Insert each subgroup
+                for (String subgroupName : subgroups) {
+                    subgroupStmt.setInt(1, menuId);
+                    subgroupStmt.setString(2, subgroupName);
+                    subgroupStmt.addBatch();
+                }
+
+                subgroupStmt.executeBatch();
+                conn.commit();
+                System.out.println("Menu and subgroups added successfully!");
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        }
+    }
+
 }
 
