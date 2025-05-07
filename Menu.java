@@ -3,7 +3,7 @@ package com.fantastic.restaurant;
 /**
  * Represents a menu item in a restaurant.
  * This class encapsulates the details of an item including its name, cost,
- * description, category, and availability.
+ * description, category, availability, and menu/subgroup relationship.
  * 
  * The class is designed with maintainability, dependability, security, efficiency,
  * and acceptability in mind.
@@ -16,23 +16,29 @@ public class Menu {
     private String itemDescription;
     private String itemCategory;
     private int itemAvailability;
+    private int menuId;        // ID of the menu
+    private int subgroupId;    // ID of the subgroup
 
     /**
      * Constructs a new Menu item with the specified details.
      * 
-     * @param name the name of the menu item
+     * @param name        the name of the menu item
      * @param description the description of the menu item
-     * @param cost the cost of the menu item
-     * @param category the category of the menu item
-     * @param available the availability of the menu item
+     * @param cost       the cost of the menu item
+     * @param category    the category of the menu item
+     * @param available    the availability of the menu item (0 or 1)
+     * @param menuId      the ID of the menu associated with this item
+     * @param subgroupId   the ID of the subgroup associated with this item
      * @throws IllegalArgumentException if any input is invalid (e.g., negative cost or availability)
      */
-    public Menu(String name, String description, double cost, String category, int available) {
+    public Menu(String name, String description, double cost, String category, int available, int menuId, int subgroupId) {
         setName(name);
         setDescription(description);
         setCost(cost);
         setCategory(category);
         setAvailability(available);
+        this.menuId = menuId;
+        this.subgroupId = subgroupId;
     }
 
     // Setters with validation
@@ -92,61 +98,43 @@ public class Menu {
     /**
      * Sets the availability of the menu item.
      * 
-     * @param available the availability of the menu item
-     * @throws IllegalArgumentException if the availability is negative
+     * @param available the availability of the menu item (0 for not available, 1 for available)
+     * @throws IllegalArgumentException if the availability is invalid (anything other than 0 or 1)
      */
     public void setAvailability(int available) {
-        if (available < 0) {
-            throw new IllegalArgumentException("Item availability cannot be negative.");
+        if (available < 0 || available > 1) { // Restrict availability to binary values
+            throw new IllegalArgumentException("Item availability can only be 0 (not available) or 1 (available).");
         }
         this.itemAvailability = available;
     }
-
+    
     // Getters
 
-    /**
-     * Gets the name of the menu item.
-     * 
-     * @return the name of the menu item
-     */
     public String getName() {
         return itemName;
     }
 
-    /**
-     * Gets the cost of the menu item.
-     * 
-     * @return the cost of the menu item
-     */
     public double getCost() {
         return itemCost;
     }
 
-    /**
-     * Gets the description of the menu item.
-     * 
-     * @return the description of the menu item
-     */
     public String getDescription() {
         return itemDescription;
     }
 
-    /**
-     * Gets the category of the menu item.
-     * 
-     * @return the category of the menu item
-     */
     public String getCategory() {
         return itemCategory;
     }
 
-    /**
-     * Gets the availability of the menu item.
-     * 
-     * @return the availability of the menu item
-     */
     public int getAvailability() {
         return itemAvailability;
     }
+    
+    public int getMenuId() {
+        return menuId;
+    }
+    
+    public int getSubgroupId() {
+        return subgroupId;
+    }
 }
-
